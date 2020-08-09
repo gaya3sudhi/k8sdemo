@@ -38,7 +38,7 @@ pipeline {
         stage('Deploy to GKE production cluster') {
             steps{
                 input message:"Proceed with final deployment?"
-                step(projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME_PROD, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+                step([projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME_PROD, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
             }
         } 
     }   
