@@ -4,10 +4,6 @@ node {
      stage('Initialize'){
         def dockerHome = tool 'myDocker'
         env.PATH = "${dockerHome}/bin:${env.PATH}"
-          PROJECT_ID = 'wired-rex-283811'
-        CLUSTER_NAME = 'sprint6-k8s-demo'
-        LOCATION = 'asia-east1-b'
-        CREDENTIALS_ID = 'k8s-cluster-config'
     }
    
     stage('Clone repository') { 
@@ -31,9 +27,10 @@ node {
         }
     }
     stage('Deploy to GKE') {
-           
-        sh ("sed -i 's/hello:latest/hello:${env.BUILD_ID}/g' deployment.yaml") {
-                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
-    }    
+        steps {
+            script{
+                kubernetesDeploy(configs: "deployment.yaml", kuberconfigId: "k8s-cluster-config")
     }
+}
+}
 }
