@@ -10,7 +10,7 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    myapp = docker.build("gaya3sudhi/k8s")
+                    myapp = docker.build("gaya3sudhi/python-git")
                 }
             }
         }
