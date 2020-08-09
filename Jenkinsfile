@@ -11,23 +11,39 @@ pipeline  {
      }
    
     stage('Clone repository') { 
+        
+        steps{
+            script{
         checkout scm
+    }
+        }
     }
 
     stage('Build image') {
+        steps{
+            script{
         app = docker.build("gaya3sudhi/k8s")
+    }
+        }
     }
 
     stage('Test image') {
+        steps{
+            scripts{
         app.inside {
             sh 'echo "Tests passed"'
         }
     }
-
+        }
+    }
     stage('Push image') {
+        steps{
+            scripts{
            docker.withRegistry('https://registry.hub.docker.com', 'docker-cred') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
+        }
+    }
         }
     }
     stage('Deploy to GKE') {
