@@ -1,39 +1,41 @@
----
+--- 
 apiVersion: apps/v1
 kind: Deployment
-metadata:
-name: hello
-labels:
+labels: 
   app: hello
-spec:
-replicas:2
-selector:
-  matchLables:
+metadata: ~
+name: hello
+selector: 
+  matchLables: 
     app: hello
-template:
-  metadata:
-    labels:
+spec: "replicas:2"
+template: 
+  metadata: 
+    labels: 
       app: hello
       tier: hello
-  spec:
-    containers:
-    - name: hello
-      image: gaya3sudhi/k8s
-      imagePullPolicy: Always
+  spec: 
+    containers: 
+      - 
+        image: gaya3sudhi/k8s
+        imagePullPolicy: Always
+        name: hello
 
----
+--- 
 apiVersion: v1
 kind: Service
-metadata:
-name: hello
-labels:
+labels: 
   app: hello
-spec  
- selector:
-   app: hello
-   tier: hello
- ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 80
- type: LoadBalancer
+metadata: ~
+name: hello
+spec: 
+  ports: 
+    - 
+      port: 80
+      protocol: TCP
+      targetPort: 80
+  selector: 
+    app: hello
+    tier: hello
+  type: LoadBalancer
+
