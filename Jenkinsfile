@@ -1,5 +1,5 @@
 pipeline  {
-    agent {label "kubepod"}
+    agent none
  stages{
      stage('Initialize'){
         def dockerHome = tool 'myDocker'
