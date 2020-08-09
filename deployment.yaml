@@ -18,5 +18,3 @@ spec:
       containers:
       - name: mytest3
         image: gaya3sudhi/python-git
-        ports:
-        - containerPort: 80
