@@ -27,7 +27,12 @@ metadata:
 name: hello
 labels:
   app: hello
-selector:
-  app: hello
-  tier: hello
-type: LoadBalancer
+spec  
+ selector:
+   app: hello
+   tier: hello
+ ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+ type: LoadBalancer
