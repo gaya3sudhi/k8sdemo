@@ -1,4 +1,4 @@
-pipeline  {
+nodes  {
     agent {label "kubepod"}
  stages{
      stage('Initialize'){
