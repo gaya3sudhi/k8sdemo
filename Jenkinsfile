@@ -33,7 +33,6 @@ node {
             app.push("latest")
         }
     }
-}
 stage('Deploy to GKE') {
             steps{
                 sh "sed -i 's/hello:latest/hello:${env.BUILD_ID}/g' deployment.yaml"
@@ -41,4 +40,3 @@ stage('Deploy to GKE') {
             }
         }
     }    
-}
