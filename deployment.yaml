@@ -19,9 +19,6 @@ template:
     - name: hello
       image: gaya3sudhi/k8s
       imagePullPolicy: Always
-      ports:
-      - containerPort: 5000
-        name: hello
 
 ---
 apiVersion: v1
@@ -30,10 +27,6 @@ metadata:
 name: hello
 labels:
   app: hello
-spec:
-ports:
-  - port: 5000
-    targetPort: 5000
 selector:
   app: hello
   tier: hello
