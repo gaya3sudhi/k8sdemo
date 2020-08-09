@@ -37,13 +37,12 @@ pipeline  {
     stage('Push image') {
         steps{
             scripts{
-           docker.withRegistry('https://registry.hub.docker.com', 'docker-cred') {
+                 docker.withRegistry('https://registry.hub.docker.com', 'docker-cred') 
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
     }
         }
-    }
     stage('Deploy to GKE') {
         steps {
             script{
