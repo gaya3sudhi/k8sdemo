@@ -4,15 +4,12 @@ node {
      stage('Initialize'){
         def dockerHome = tool 'myDocker'
         env.PATH = "${dockerHome}/bin:${env.PATH}"
-    }
-    agent any
-    environment {
-        PROJECT_ID = 'wired-rex-283811'
+          PROJECT_ID = 'wired-rex-283811'
         CLUSTER_NAME = 'sprint6-k8s-demo'
         LOCATION = 'asia-east1-b'
         CREDENTIALS_ID = 'gke'
     }
-
+   
     stage('Clone repository') { 
         checkout scm
     }
