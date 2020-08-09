@@ -1,41 +1,22 @@
---- 
+---
 apiVersion: apps/v1
 kind: Deployment
-labels: 
-  app: hello
-metadata: ~
-name: hello
-selector: 
-  matchLables: 
-    app: hello
-spec: "replicas:2"
-template: 
-  metadata: 
-    labels: 
-      app: hello
-      tier: hello
-  spec: 
-    containers: 
-      - 
-        image: gaya3sudhi/k8s
-        imagePullPolicy: Always
-        name: hello
-
---- 
-apiVersion: v1
-kind: Service
-labels: 
-  app: hello
-metadata: ~
-name: hello
-spec: 
-  ports: 
-    - 
-      port: 80
-      protocol: TCP
-      targetPort: 80
-  selector: 
-    app: hello
-    tier: hello
-  type: LoadBalancer
-
+metadata:
+  name: python-git
+  labels:
+    app: python
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: python
+  template:
+    metadata:
+      labels:
+        app: python
+    spec:
+      containers:
+      - name: mytest3
+        image: gaya3sudhi/python-git
+        ports:
+        - containerPort: 80
