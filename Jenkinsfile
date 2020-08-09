@@ -1,12 +1,6 @@
 pipeline {
     agent any
-    environment {
-        PROJECT_ID = 'wired-rex-283811'
-        CLUSTER_NAME = 'sprint6-k8s-demo'
-        LOCATION = 'asia-east1-b'
-        CREDENTIALS_ID = 'gke'
-    }
-    stages {
+        stages {
         stage("Checkout code") {
             steps {
                 checkout scm
