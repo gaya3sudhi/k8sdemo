@@ -7,7 +7,6 @@ node {
           PROJECT_ID = 'wired-rex-283811'
         CLUSTER_NAME = 'sprint6-k8s-demo'
         LOCATION = 'asia-east1-b'
-        CREDENTIALS_ID = 'gke'
     }
    
     stage('Clone repository') { 
@@ -31,8 +30,11 @@ node {
         }
     }
 stage('Deploy to GKE') {
+    kubernetesDeoloy{
+          configs: 'deployment.yaml',
+          kubeconfigId: 'k8s-cluster-config',    
             steps{
-                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId:  verifyDeployments: true])
             }
         }
     }    
