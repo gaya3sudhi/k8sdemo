@@ -4,7 +4,7 @@ pipeline {
         PROJECT_ID = 'wired-rex-283811'
         CLUSTER_NAME = 'sprint6-k8s-demo'
         LOCATION = 'asia-east1-b'
-        CREDENTIALS_ID = 'k8s-cluster-config'
+        CREDENTIALS_ID = 'gke'
     }
     stages {
         stage("Checkout code") {
@@ -35,11 +35,5 @@ pipeline {
                 step([projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
             }
         }
-        stage('Deploy to GKE production cluster') {
-            steps{
-                input message:"Proceed with final deployment?"
-                step([projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME_PROD, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
-            }
-        } 
     }   
 }
