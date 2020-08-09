@@ -1,54 +1,39 @@
-pipeline  {
-    def app
- stages{
-     stage('Initialize'){
-         steps{
-             script{
-        def dockerHome = tool 'myDocker'
-        env.PATH = "${dockerHome}/bin:${env.PATH}"
+pipeline {
+    agent any
+    environment {
+        PROJECT_ID = 'wired-rex-283811'
+        CLUSTER_NAME = 'sprint6-k8s-demo'
+        LOCATION = 'asia-east1-b'
+        CREDENTIALS_ID = 'k8s-cluster-config'
     }
-         }
-     }
-   
-    stage('Clone repository') { 
-        
-        steps{
-            script{
-        checkout scm
-    }
+    stages {
+        stage("Checkout code") {
+            steps {
+                checkout scm
+            }
         }
-    }
-
-    stage('Build image') {
-        steps{
-            script{
-        app = docker.build("gaya3sudhi/k8s")
-    }
+        stage("Build image") {
+            steps {
+                script {
+                    myapp = docker.build("gaya3sudhi/k8s")
+                }
+            }
         }
-    }
-
-    stage('Test image') {
-        steps{
-            script{
-                      sh 'echo "Tests passed"'
+        stage("Push image") {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-cred') {
+                            myapp.push("latest")
+                            myapp.push("${env.BUILD_ID}")
                     }
+                }
+            }
+        }        
+        stage('Deploy to GKE') {
+            steps{
+                sh "sed -i 's/hello:latest/hello:${env.BUILD_ID}/g' deployment.yaml"
+                step([$class: 'KubernetesEngineBuilder', projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME, location: env.LOCATION, manifestPattern: 'deployment.yaml', credentialsId: env.CREDENTIALS_ID, verifyDeployments: true])
+            }
         }
-    }
-    stage('Push image') {
-        steps{
-            script{
-                 docker.withRegistry('https://registry.hub.docker.com', 'docker-cred') 
-                 app.push("${env.BUILD_NUMBER}")
-                 app.push("latest")
-        }
-    }
-        }
-    stage('Deploy to GKE') {
-        steps {
-            script{
-                kubernetesDeploy(configs: "deployment.yaml", kuberconfigId: "k8s-cluster-config")
-    }
-}
-}
- }
+    }    
 }
