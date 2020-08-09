@@ -1,5 +1,5 @@
 pipeline  {
-    agent none
+    def app
  stages{
      stage('Initialize'){
          steps{
